@@ -4,6 +4,8 @@ import Participant from "../../components/Participant";
 
 export default function Home() {
   function handleParticipantAdd () {}
+
+  function handleParticipantRemove() {}
   return (
     <View style={styles.container}>
       <Text style={styles.eventName}>
@@ -27,7 +29,7 @@ export default function Home() {
           </Text>
         </TouchableOpacity>
       </View>
-      <Participant />
+      <Participant name="João" onRemove={handleParticipantRemove}/>
     </View>
   );
 }
