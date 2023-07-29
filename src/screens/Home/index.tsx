@@ -1,13 +1,16 @@
 import { Text, TextInput, TouchableOpacity, View, FlatList, Alert } from "react-native";
 import { styles } from "./styles"; 
 import Participant from "../../components/Participant";
+import React, { useState } from "react";
 
 export default function Home() {
-  const participants = ['Matheus', 'Wesley', 'Kauan', 'João']
+  const [participants, setParticipants] = useState(['João'])
   function handleParticipantAdd (name: string) {
     if (participants.includes(name)) {
       return Alert.alert('Erro', 'Participante já cadastrado')
     }
+
+    setParticipants(prevState => [...prevState, 'Ana'])
   }
 
   function handleParticipantRemove(name: string) {
