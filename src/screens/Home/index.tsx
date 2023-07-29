@@ -1,12 +1,27 @@
-import { Text, TextInput, TouchableOpacity, View, FlatList } from "react-native";
+import { Text, TextInput, TouchableOpacity, View, FlatList, Alert } from "react-native";
 import { styles } from "./styles"; 
 import Participant from "../../components/Participant";
 
 export default function Home() {
   const participants = ['Matheus', 'Wesley', 'Kauan', 'João']
-  function handleParticipantAdd () {}
+  function handleParticipantAdd (name: string) {
+    if (participants.includes(name)) {
+      return Alert.alert('Erro', 'Participante já cadastrado')
+    }
+  }
 
-  function handleParticipantRemove() {}
+  function handleParticipantRemove(name: string) {
+    Alert.alert('Remover', `Deseja remover o participante ${name} ?`, [
+      {
+        text: 'Sim',
+        onPress: () => Alert.alert('Deletado')
+      },
+      {
+        text: 'Não',
+        style: 'cancel'
+      }
+    ])
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.eventName}>
@@ -24,7 +39,7 @@ export default function Home() {
           placeholderTextColor='#6B6B6B'
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
+        <TouchableOpacity style={styles.button} onPress={(event) => handleParticipantAdd(event)}>
           <Text style={styles.buttonText}>
             +
           </Text>
@@ -35,7 +50,7 @@ export default function Home() {
         data={participants}
         keyExtractor={item => item}
         renderItem={( { item }) => (
-        <Participant name={item} key={item} onRemove={handleParticipantRemove}/>
+        <Participant name={item} key={item} onRemove={() => handleParticipantRemove(item)}/>
         )}
         ListEmptyComponent={() => (
           <Text style={styles.listEmptyText}>
