@@ -4,20 +4,26 @@ import Participant from "../../components/Participant";
 import React, { useState } from "react";
 
 export default function Home() {
-  const [participants, setParticipants] = useState(['João'])
+  const [participants, setParticipants] = useState<string[]>([])
+  const [participant, setParticipant] = useState('');
   function handleParticipantAdd (name: string) {
-    if (participants.includes(name)) {
+    if (participants.includes(participant)) {
       return Alert.alert('Erro', 'Participante já cadastrado')
     }
 
-    setParticipants(prevState => [...prevState, 'Ana'])
+    setParticipants(prevState => [...prevState, participant])
+    setParticipant('')
   }
 
   function handleParticipantRemove(name: string) {
     Alert.alert('Remover', `Deseja remover o participante ${name} ?`, [
       {
         text: 'Sim',
-        onPress: () => Alert.alert('Deletado')
+        onPress: () => {
+          const filteredParticipants = participants.filter(participant => participant !== name)
+
+          setParticipants(filteredParticipants)
+        }
       },
       {
         text: 'Não',
@@ -40,9 +46,11 @@ export default function Home() {
           style={styles.input}
           placeholder='Nome do participante'
           placeholderTextColor='#6B6B6B'
+          onChangeText={(name) => setParticipant(name)}
+          value={participant}
         />
 
-        <TouchableOpacity style={styles.button} onPress={(event) => handleParticipantAdd(event)}>
+        <TouchableOpacity style={styles.button} onPress={() => handleParticipantAdd(participant)}>
           <Text style={styles.buttonText}>
             +
           </Text>
